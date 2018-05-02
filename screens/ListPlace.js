@@ -11,6 +11,8 @@ class ListPlace extends React.Component {
 
         this.state = {
             data: [],
+            tempData: [],
+            text: ''
         };
 
         this.itemsRef = this.getRef().child('places');
@@ -45,6 +47,18 @@ class ListPlace extends React.Component {
         })
     }
 
+    filterSearch(text){
+        const newData = this.state.tempData.filter(function(item) {
+            const itemData = item.name.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1
+
+        })
+        this.setState({
+            data: newData,
+            text: text
+        })
+    }
 
     render() {
         return(
@@ -54,6 +68,15 @@ class ListPlace extends React.Component {
                     <Title>Transight</Title>
                 </Body>
             </Header>
+
+            <View>
+                <Item>
+                    <Icon name="ios-search" />
+                    <Input placeholder="Search" 
+                    onChangeText={(text) => this.filterSearch(text)}
+                    value={this.state.text}/>
+                </Item>
+            </View>
 
             <Content>
                 <List 
