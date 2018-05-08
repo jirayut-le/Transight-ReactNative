@@ -1,21 +1,32 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Picker } from 'react-native';
 import { Container, Button, Text, Header, Body, Title, Content, List, ListItem, Card, CardItem, Item, Icon, Input, Right, Left} from 'native-base';
-import styles from '../styles/HomeStyle';
+import styles from '../styles/ListPlaceStyle';
+import Detail from './Detail';
 import * as firebase from 'firebase';
+import { StackNavigator } from 'react-navigation';
 
 class ListPlace extends React.Component {
+
+    static navigationOptions = {
+        title: 'Transight'
+    };
 
     constructor(props){
         super(props);
 
+        this.pickerValueHolder = ''
+
         this.state = {
             data: [],
             tempData: [],
-            text: ''
+            text: '',
+            stationList: [],
+            
         };
 
         this.itemsRef = this.getRef().child('places');
+        this.stationRef = this.getRef().child('station');
     }
 
     getRef(){
@@ -23,10 +34,10 @@ class ListPlace extends React.Component {
     }
 
     componentDidMount(){
-        this.getItems(this.itemsRef);
+        this.getItems(this.itemsRef, this.stationRef);
     }
 
-    getItems(itemsRef){
+    getItems(itemsRef, stationRef){
         itemsRef.on('value', (data) => {
                 let items = [];
                 data.forEach((child) => {
@@ -45,6 +56,20 @@ class ListPlace extends React.Component {
                     tempData: items
                 });
         })
+
+        stationRef.on('value', (data) => {
+            let items2 = [];
+            data.forEach((child) => {
+                items2.push({
+                    value : child.val().stationName,
+                });
+            });
+
+            console.log(items2);
+            this.setState({
+                stationList: items2
+            });
+        })
     }
 
     filterSearch(text){
@@ -60,16 +85,48 @@ class ListPlace extends React.Component {
         })
     }
 
+    getPlaceCard(item) {
+        return (
+            <Card>
+                <CardItem header>
+                    <Body>
+                        <Text>{`${item.name}`}</Text>
+                        <Text note>BTS {`${item.station}`} Station</Text>
+                    </Body>
+                </CardItem>
+                <CardItem cardBody>
+                    {/* <Image source={{uri: item.img}} style={{height: 200, width: null, flex: 1}}/> */}
+                </CardItem>
+            </Card>
+          
+        );
+    }
+
+    getStationList(){
+        return this.state.stationList;
+    }
+
+    getPicker(){
+        return(
+            <Picker
+                selectedValue={this.state.pickerValueHolder}
+                onValueChange={(itemValue, itemIndex) => this.setState({pickerValueHolder: itemValue})} >
+                { this.state.stationList.map((item, key)=>(
+                <Picker.Item label={item.value} value={item.value} key={key} />)
+                )}
+                
+            </Picker>
+        )
+    }
+
+    OpenSecondActivity (rowData) {
+       this.props.navigation.navigate('Second', { placeData: rowData, stationListData : this.state.stationList});
+    }
+
     render() {
         return(
         <Container>
-            <Header>
-                <Body>
-                    <Title>Transight</Title>
-                </Body>
-            </Header>
-
-            <View>
+            <View style={styles.content}>
                 <Item>
                     <Icon name="ios-search" />
                     <Input placeholder="Search" 
@@ -82,21 +139,12 @@ class ListPlace extends React.Component {
                 <List 
                     dataArray={this.state.data}
                     renderRow={(item) =>
-                    <ListItem>
-                        <Card>
-                            <CardItem header>
-                                <Body>
-                                    <Text>{`${item.name}`}</Text>
-                                    <Text note>{`${item.station}`}</Text>
-                                </Body>
-                            </CardItem>
-                            <CardItem cardBody>
-                                <Image source={{uri: item.img}} style={{height: 200, width: null, flex: 1}}/>
-                            </CardItem>
-                        </Card>
+                    <ListItem onPress={this.OpenSecondActivity.bind(this, item)}>
+                        {this.getPlaceCard(item)}
                     </ListItem>
-                    }>
-                </List>
+                    }
+                    keyExtractor = {item => item._key}
+                    />
             </Content>
 
         </Container>
@@ -104,4 +152,11 @@ class ListPlace extends React.Component {
     }
 }
 
-export default ListPlace;
+// export default ListPlace;
+
+export default Project = StackNavigator(
+    {
+      First: { screen: ListPlace },
+      
+      Second: { screen: Detail }
+    });
