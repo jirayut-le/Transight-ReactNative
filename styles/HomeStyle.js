@@ -9,5 +9,11 @@ export default StyleSheet.create({
       },
       content: {
         alignSelf: 'center'
+      },
+      btn: {
+        marginTop: 20,
+        width: 180,
+        alignItems: 'center',
+        justifyContent: 'center'
       }
 });
