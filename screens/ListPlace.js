@@ -22,11 +22,12 @@ class ListPlace extends React.Component {
             tempData: [],
             text: '',
             stationList: [],
-            
+            pricetime: []
         };
 
         this.itemsRef = this.getRef().child('places');
         this.stationRef = this.getRef().child('station');
+        this.pricetimeRef = this.getRef().child('priceandtime');
     }
 
     getRef(){
@@ -34,10 +35,10 @@ class ListPlace extends React.Component {
     }
 
     componentDidMount(){
-        this.getItems(this.itemsRef, this.stationRef);
+        this.getItems(this.itemsRef, this.stationRef, this.pricetimeRef);
     }
 
-    getItems(itemsRef, stationRef){
+    getItems(itemsRef, stationRef, pricetimeRef){
         itemsRef.on('value', (data) => {
                 let items = [];
                 data.forEach((child) => {
@@ -55,7 +56,7 @@ class ListPlace extends React.Component {
                     data: items,
                     tempData: items
                 });
-        })
+        });
 
         stationRef.on('value', (data) => {
             let items2 = [];
@@ -69,7 +70,23 @@ class ListPlace extends React.Component {
             this.setState({
                 stationList: items2
             });
-        })
+        });
+
+        pricetimeRef.on('value', (data) => {
+            let item3 = [];
+            data.forEach((child) => {
+                item3.push({
+                    arrive : child.val().arrive,
+                    depart : child.val().depart,
+                    price : child.val().price,
+                    time : child.val().time
+                });
+            });
+            console.log(item3);
+            this.setState({
+                pricetime : item3
+            });
+        });
     }
 
     filterSearch(text){
@@ -120,7 +137,7 @@ class ListPlace extends React.Component {
     }
 
     OpenSecondActivity (rowData) {
-       this.props.navigation.navigate('Second', { placeData: rowData, stationListData : this.state.stationList});
+       this.props.navigation.navigate('Second', { placeData: rowData, stationListData : this.state.stationList, pricetimeData: this.state.pricetime });
     }
 
     render() {
