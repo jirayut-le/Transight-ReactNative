@@ -3,7 +3,6 @@ import { View, Image } from 'react-native';
 import { Container, Text, Button, Picker, Icon} from 'native-base';
 import styles from '../styles/DetailStyle';
 
-
 class Detail extends React.Component {
 
     static navigationOptions =
@@ -49,7 +48,7 @@ class Detail extends React.Component {
     loadStationList(){
         return this.state.stationList.map(data => (
             <Picker.Item label={data.value} value={data.value} key={data.value} />
-         ))
+        ))
     }
 
     render(){
@@ -79,7 +78,6 @@ class Detail extends React.Component {
             </Container>
         )
     }
-
 }
 
 export default Detail;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Image, Picker } from 'react-native';
-import { Container, Button, Text, Header, Body, Title, Content, List, ListItem, Card, CardItem, Item, Icon, Input, Right, Left} from 'native-base';
+import { View, Image } from 'react-native';
+import { Container, Text, Body, Content, List, ListItem, Card, CardItem, Item, Icon, Input} from 'native-base';
 import styles from '../styles/ListPlaceStyle';
 import Detail from './Detail';
 import * as firebase from 'firebase';
@@ -14,8 +14,6 @@ class ListPlace extends React.Component {
 
     constructor(props){
         super(props);
-
-        this.pickerValueHolder = ''
 
         this.state = {
             data: [],
@@ -94,7 +92,6 @@ class ListPlace extends React.Component {
             const itemData = item.name.toUpperCase();
             const textData = text.toUpperCase();
             return itemData.indexOf(textData) > -1
-
         })
         this.setState({
             data: newData,
@@ -112,28 +109,14 @@ class ListPlace extends React.Component {
                     </Body>
                 </CardItem>
                 <CardItem cardBody>
-                    {/* <Image source={{uri: item.img}} style={{height: 200, width: null, flex: 1}}/> */}
+                    <Image source={{uri: item.img}} style={{height: 200, width: null, flex: 1}}/>
                 </CardItem>
             </Card>
-          
         );
     }
 
     getStationList(){
         return this.state.stationList;
-    }
-
-    getPicker(){
-        return(
-            <Picker
-                selectedValue={this.state.pickerValueHolder}
-                onValueChange={(itemValue, itemIndex) => this.setState({pickerValueHolder: itemValue})} >
-                { this.state.stationList.map((item, key)=>(
-                <Picker.Item label={item.value} value={item.value} key={key} />)
-                )}
-                
-            </Picker>
-        )
     }
 
     OpenSecondActivity (rowData) {
@@ -163,17 +146,12 @@ class ListPlace extends React.Component {
                     keyExtractor = {item => item._key}
                     />
             </Content>
-
         </Container>
         )
     }
 }
 
-// export default ListPlace;
-
-export default Project = StackNavigator(
-    {
-      First: { screen: ListPlace },
-      
-      Second: { screen: Detail }
-    });
+export default Project = StackNavigator({
+    First: { screen: ListPlace },
+    Second: { screen: Detail }
+});
