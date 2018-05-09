@@ -13,15 +13,20 @@ export default StyleSheet.create({
     tag : {
         color: "#999999",
         fontWeight: "800",
-        marginBottom: 10
+        marginBottom: 15
     },
     content: {
         margin: 20
     },
     des : {
-        color: "#555555",
-        fontWeight: "200",
-        marginBottom: 5
+        color: "#222222",
+        fontWeight: "300",
+        marginBottom: 20
     },
-    
+    picker: {
+        width: 330,
+        backgroundColor: '#efefef',
+        marginBottom: 10
+    }
+
 });
