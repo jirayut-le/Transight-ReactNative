@@ -91,7 +91,8 @@ class ListPlace extends React.Component {
         const newData = this.state.tempData.filter(function(item) {
             const itemData = item.name.toUpperCase();
             const textData = text.toUpperCase();
-            return itemData.indexOf(textData) > -1
+            const stationData = item.station.toUpperCase();
+            return (itemData.indexOf(textData) > -1 || stationData.indexOf(textData) > -1)
         })
         this.setState({
             data: newData,
