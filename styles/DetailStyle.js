@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: "#ffffff"
     },
     title: {
@@ -25,8 +25,30 @@ export default StyleSheet.create({
     },
     picker: {
         width: 330,
-        backgroundColor: '#efefef',
-        marginBottom: 10
+        backgroundColor: '#efefef'
+    },
+
+    pricetime: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        margin: 20,
+        padding: 10
+    },
+
+    center: {
+        alignItems: 'center',
+        paddingLeft: 40,
+        paddingRight: 40
+    },
+
+    largeFont: {
+        fontSize: 30
+    },
+
+    fromto: {
+        fontSize: 15,
+        fontWeight: "700"
     }
 
 });
