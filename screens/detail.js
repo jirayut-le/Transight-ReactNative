@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, ScrollView } from 'react-native';
 import { Container, Text, Button, Picker, Icon, Content} from 'native-base';
 import MapView from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import styles from '../styles/DetailStyle';
 
 class Detail extends React.Component {
@@ -92,16 +93,24 @@ class Detail extends React.Component {
                 </View>
                     
             </View>
-            <Container>
+            <View>
                 <Content>
                 <MapView
                 style={styles.map}
                 region={{
-                    latitude: 13.736717,
-                    longitude: 100.523186,
-                    latitudeDelta: 0.05,
-                    longitudeDelta: 0.05
+                    latitude: 13.805081,
+                    longitude: 100.551894,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02
                 }}>
+                <MapView.Marker coordinate={{latitude: 13.802497, longitude: 100.553782}}/>
+                <MapView.Marker coordinate={{latitude: 13.805081, longitude: 100.551894}}/>
+                <MapViewDirections
+                    origin={{latitude: 13.802497, longitude: 100.553782}}
+                    destination={{latitude: 13.805081, longitude: 100.551894}}
+                    apikey={'API_KEY'}
+                    strokeWidth={5}
+                    strokeColor="#4169e1"/>
                 </MapView>
                 <Button dark>
                     <Text>
@@ -109,7 +118,7 @@ class Detail extends React.Component {
                     </Text>
                 </Button>
                 </Content>
-            </Container> 
+            </View> 
             </ScrollView>
             </View>
         )
