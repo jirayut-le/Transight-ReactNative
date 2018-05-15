@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './screens/Home';
+import Home from './screens/home';
 import ListPlace from './screens/ListPlace';
 
 import * as firebase from 'firebase';

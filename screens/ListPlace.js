@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import { Container, Text, Body, Content, List, ListItem, Card, CardItem, Item, Icon, Input} from 'native-base';
 import styles from '../styles/ListPlaceStyle';
-import Detail from './Detail';
+import Detail from './detail';
 import * as firebase from 'firebase';
 import { StackNavigator } from 'react-navigation';
 
