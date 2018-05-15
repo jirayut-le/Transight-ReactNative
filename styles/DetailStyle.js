@@ -29,11 +29,9 @@ export default StyleSheet.create({
     },
 
     pricetime: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        margin: 20,
-        padding: 10
+        padding: 30,
     },
 
     center: {
@@ -49,6 +47,9 @@ export default StyleSheet.create({
     fromto: {
         fontSize: 15,
         fontWeight: "700"
+    },
+    map: {
+        height: 350
     }
 
 });

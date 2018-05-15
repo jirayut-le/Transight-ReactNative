@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, ScrollView } from 'react-native';
-import { Container, Text, Button, Picker, Icon} from 'native-base';
+import { Container, Text, Button, Picker, Icon, Content} from 'native-base';
+import MapView from 'react-native-maps';
 import styles from '../styles/DetailStyle';
 
 class Detail extends React.Component {
@@ -53,9 +54,10 @@ class Detail extends React.Component {
 
     render(){
         return(
+            <View style={{flex:1}}>
             <ScrollView>
-            <Container style={styles.container}>
-            <Image source={{uri: this.state.data.img}} style={{height:250, width: null}}/>
+            <Image source={{uri: this.state.data.img}} style={{height:250}}/>
+            <View style={styles.container}>
                 <View style={styles.content}>
                     <Text style={styles.title}>{this.state.data.name}</Text>
                     <Text style={styles.tag}>BTS {this.state.data.station} station</Text>
@@ -88,8 +90,28 @@ class Detail extends React.Component {
                         <Text style={styles.largeFont}>{this.state.time}</Text>
                     </View>
                 </View>
-            </Container>
+                    
+            </View>
+            <Container>
+                <Content>
+                <MapView
+                style={styles.map}
+                region={{
+                    latitude: 13.736717,
+                    longitude: 100.523186,
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05
+                }}>
+                </MapView>
+                <Button dark>
+                    <Text>
+                    Get Direction
+                    </Text>
+                </Button>
+                </Content>
+            </Container> 
             </ScrollView>
+            </View>
         )
     }
 }
