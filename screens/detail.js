@@ -23,7 +23,13 @@ class Detail extends React.Component {
             price: '0',
             time: '0',
             lat: 0,
-            long: 0
+            long: 0,
+            currentLat: 0,
+            currentLong: 0,
+            regionlat : 0,
+            regionlong: 0,
+            regiondeltaLat: 1,
+            regiondeltaLong: 1
         }
 
     }
@@ -50,11 +56,9 @@ class Detail extends React.Component {
         });
     }
 
-    getLatLong(itemValue){
-        
-    }
-
     componentDidMount(){
+        this.getCurrentLocation();
+        // this.getRegion();
         this.setState({
             data: this.props.navigation.state.params.placeData,
             stationList: this.props.navigation.state.params.stationListData,
@@ -66,6 +70,45 @@ class Detail extends React.Component {
         return this.state.stationList.map(data => (
             <Picker.Item label={data.value} value={data.value} key={data.value} />
         ))
+    }
+
+    getCurrentLocation(){
+        try {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({
+                        currentLat: position.coords.latitude,
+                        currentLong: position.coords.longitude
+                    }, this.getRegion());
+                }
+            )
+        } catch(e){
+            console.log(e.message);
+        }
+    }
+
+    getRegion(){
+        var minX, maxX, minY, maxY;
+        
+        minX = Math.min(this.state.currentLat, this.state.data.lat);
+        maxX = Math.max(this.state.currentLat, this.state.data.lat);
+        minY = Math.min(this.state.currentLong, this.state.data.long);
+        maxY = Math.max(this.state.currentLong, this.state.data.long);
+
+        var midX = (minX + maxX) / 2;
+        var midY = (minY + maxY) / 2;
+        // var midPoint = [midX, midY];
+
+        var deltaX = (maxX - minX);
+        var deltaY = (maxY - minY);
+
+        this.setState({
+            regionlat: midX,
+            regionlong: midY,
+            regiondeltaLat: deltaX,
+            regiondeltaLong: deltaY
+        })
+        
     }
 
     render(){
@@ -111,19 +154,24 @@ class Detail extends React.Component {
             <View>
                 <Content>
                 <MapView
+                showsUserLocation
                 style={styles.map}
                 region={{
                     latitude: this.state.data.lat,
                     longitude: this.state.data.long,
                     latitudeDelta: 0.02,
                     longitudeDelta: 0.02
-                }}>
+                    // latitudeDelta: this.state.regiondeltaLat,
+                    // longitudeDelta: this.state.regiondeltaLong
+                }
+                    
+                }>
                 <MapView.Marker coordinate={{latitude: this.state.data.lat, longitude: this.state.data.long}}/>
-                <MapView.Marker coordinate={{latitude: this.state.lat, longitude: this.state.long}}/>
+                {/* <MapView.Marker coordinate={{latitude: this.state.lat, longitude: this.state.long}}/> */}
                 <MapViewDirections
-                    origin={{latitude: this.state.lat, longitude: this.state.long}}
+                    origin={{latitude: this.state.currentLat, longitude: this.state.currentLong}}
                     destination={{latitude: this.state.data.lat, longitude: this.state.data.long}}
-                    apikey={'AIzaSyCSYdoSNRSEEuoYaRVWQPuZeB4PAK1hK6k'}
+                    apikey={'API_KEY'}
                     strokeWidth={5}
                     strokeColor="#4169e1"/>
                 </MapView>
