@@ -45,6 +45,8 @@ class ListPlace extends React.Component {
                         station : child.val().stationName,
                         des : child.val().description,
                         img : child.val().imgSrc,
+                        lat : child.val().lat,
+                        long : child.val().long,
                         _key: child.key
                     });
                 });
@@ -61,6 +63,8 @@ class ListPlace extends React.Component {
             data.forEach((child) => {
                 items2.push({
                     value : child.val().stationName,
+                    lat : child.val().lat,
+                    long : child.val().long
                 });
             });
 

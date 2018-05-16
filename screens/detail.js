@@ -21,7 +21,9 @@ class Detail extends React.Component {
             pricetime: [],
             selected: '',
             price: '0',
-            time: '0'
+            time: '0',
+            lat: 0,
+            long: 0
         }
 
     }
@@ -36,7 +38,20 @@ class Detail extends React.Component {
                     });
                 }
             });
+
+            this.state.stationList.forEach(element => {
+                if(element.value == this.state.selected){
+                    this.setState({
+                        lat: element.lat,
+                        long: element.long
+                    });
+                }
+            })
         });
+    }
+
+    getLatLong(itemValue){
+        
     }
 
     componentDidMount(){
@@ -98,17 +113,17 @@ class Detail extends React.Component {
                 <MapView
                 style={styles.map}
                 region={{
-                    latitude: 13.805081,
-                    longitude: 100.551894,
+                    latitude: this.state.data.lat,
+                    longitude: this.state.data.long,
                     latitudeDelta: 0.02,
                     longitudeDelta: 0.02
                 }}>
-                <MapView.Marker coordinate={{latitude: 13.802497, longitude: 100.553782}}/>
-                <MapView.Marker coordinate={{latitude: 13.805081, longitude: 100.551894}}/>
+                <MapView.Marker coordinate={{latitude: this.state.data.lat, longitude: this.state.data.long}}/>
+                <MapView.Marker coordinate={{latitude: this.state.lat, longitude: this.state.long}}/>
                 <MapViewDirections
-                    origin={{latitude: 13.802497, longitude: 100.553782}}
-                    destination={{latitude: 13.805081, longitude: 100.551894}}
-                    apikey={'API_KEY'}
+                    origin={{latitude: this.state.lat, longitude: this.state.long}}
+                    destination={{latitude: this.state.data.lat, longitude: this.state.data.long}}
+                    apikey={'AIzaSyCSYdoSNRSEEuoYaRVWQPuZeB4PAK1hK6k'}
                     strokeWidth={5}
                     strokeColor="#4169e1"/>
                 </MapView>
